@@ -14,6 +14,7 @@ class Tag
     {
         $this->tagType = $tagType;
         $this->setTagValue($tagValue);
+        $this->parseTagValue(trim($tagValue));
     }
 
     public function setTagValue($value)
@@ -21,5 +22,16 @@ class Tag
         $this->tagValue = $value;
 
         return $this;
+    }
+
+    /**
+     * Parse Tag value into Tag-specific properties
+     *
+     * Override this method for specific tag types
+     *
+     * @param $tagValue
+     */
+    protected function parseTagValue($tagValue)
+    {
     }
 }

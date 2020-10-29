@@ -10,7 +10,7 @@ class MethodCommentParser
     /** @var MetaDataMethod */
     protected $meta;
 
-    /** @var Tag|null */
+    /** @var MetaDataTagParser|null */
     protected $currentTag;
 
     protected function __construct(MetaDataMethod $meta)
@@ -43,42 +43,31 @@ class MethodCommentParser
         // Strip * at line start
         $line = \preg_replace('~^\s*\*\s?~', '', $line);
         $line = \trim($line);
-        if (\preg_match('/^@param\s+([^\s]+)\s+\$([^\s]+)\s*(.*?)$/', $line, $match)) {
-            $param = new MetaDataParameter($match[2], $match[1], $match[3]);
-            $this->meta->addParameter($param);
-            $this->currentParagraph = &$param->description;
-
-            return;
-        }
-        if (\preg_match('/^@return\s+([^\s]+)$/', $line, $match)) {
-            // Multiple ones? Is incorrect, but we do not want to fail here.
-            // Last one wins:
-            $this->meta->resultType = $match[1];
-
+        if (\preg_match('/^@([A-z0-9]+)\s+([^\s]+)$/', $line, $match)) {
+            $this->currentTag = new MetaDataTagParser($match[1], $match[2]);
             return;
         }
 
-        if (\substr($line, 0, 1) === '@') {
-            // ignoring other tags
+        if ($this->currentTag) {
+            $this->currentTag->appendValueString($line);
             return;
-        }
-        /*
-        if ($this->meta->title === null) {
-            $this->meta->title = $line;
-            return;
-        }
-        */
-        if ($this->currentParagraph === null && empty($this->paragraphs)) {
-            $this->currentParagraph = & $this->paragraphs[];
         }
 
-        if ($line === '') {
+        $this->appendToParagraph($line);
+    }
+
+    protected function appendToParagraph($line)
+    {
+        if (trim($line) === '') {
             if ($this->currentParagraph !== null) {
-                $this->currentParagraph = & $this->paragraphs[];
+                unset($this->currentParagraph);
+                $this->currentParagraph = null;
             }
             return;
         }
+
         if ($this->currentParagraph === null) {
+            $this->currentParagraph = & $this->paragraphs[];
             $this->currentParagraph = $line;
         } else {
             if (\substr($line, 0, 2) === '  ') {

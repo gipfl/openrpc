@@ -50,12 +50,6 @@ class MetaDataMethod implements JsonSerializable
 
     public function addParsed(MethodCommentParser $parser)
     {
-        /*
-        $methodInfo->result = $self->getResultType();
-        $methodInfo->parameters = $self->getParams();
-        $methodInfo->title = $self->getTitle();
-        $methodInfo->description = $self->getDescription();
-        */
         $this->resultType = $parser->getResultType();
         $this->parameters = $parser->getParams();
         $this->title = $parser->getTitle();

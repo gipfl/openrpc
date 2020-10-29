@@ -58,4 +58,10 @@ class OpenRpcDocument
      * @var ExternalDocumentation|null
      */
     public $externalDocs;
+
+    public function __construct($openrpcVersion, Info $info)
+    {
+        $this->openrpc = $openrpcVersion;
+        $this->info = $info;
+    }
 }

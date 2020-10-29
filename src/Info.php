@@ -51,4 +51,10 @@ class Info
      * @var string
      */
     public $version;
+
+    public function __construct($title, $version)
+    {
+        $this->title = $title;
+        $this->version = $version;
+    }
 }

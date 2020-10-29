@@ -11,7 +11,7 @@ class MetaDataClass implements JsonSerializable
 {
     use MetaDataSerializer;
 
-    const REQUIRED_PROPERTIES = ['namespace'];
+    const REQUIRED_PROPERTIES = []; // Used to be 'namespace'
 
     const OPTIONAL_PROPERTIES = [];
 

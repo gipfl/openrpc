@@ -41,16 +41,16 @@ class MetaDataClass implements JsonSerializable
         }
 
         foreach ($ref->getMethods() as $method) {
-            $methodName= $method->getName();
+            $methodName = $method->getName();
             if (! \preg_match('/^(.+)(Request|Notification)$/', $methodName, $match)) {
                 continue;
             }
 
-            $methodName = $match[1];
-            $methodType = \lcfirst($match[2]);
-            $methodInfo = new MetaDataMethod($methodName, $methodType);
-            $methodInfo->addParsed(MethodCommentParser::parseMethod($methodInfo, $method->getDocComment()));
-            $info->addMethod($methodInfo);
+            $info->addMethod(MethodCommentParser::parseMethod(
+                $match[1],
+                \lcfirst($match[2]),
+                $method->getDocComment())
+            );
         }
 
         return $info;

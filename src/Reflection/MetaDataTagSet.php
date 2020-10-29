@@ -4,7 +4,7 @@ namespace gipfl\OpenRpc\Reflection;
 
 class MetaDataTagSet
 {
-    /** @var MetaDataTag[] */
+    /** @var Tag[] */
     protected $tags;
 
     public function __construct()
@@ -12,7 +12,7 @@ class MetaDataTagSet
         $this->tags = [];
     }
 
-    public function add(MetaDataTag $tag)
+    public function add(Tag $tag)
     {
         $this->tags[] = $tag;
     }
@@ -25,12 +25,41 @@ class MetaDataTagSet
     {
         $set = new static();
         foreach ($this->tags as $tag) {
-            if ($tag->getType() === $type) {
+            if ($tag->tagType === $type) {
                 $set->add($tag);
             }
         }
 
         return $set;
+    }
+
+    /**
+     * @return MetaDataParameter[]
+     */
+    public function getParams()
+    {
+        $result = [];
+        foreach ($this->byType('param')->getTags() as $tag) {
+            assert($tag instanceof ParamTag);
+            $result[] = new MetaDataParameter($tag->name, $tag->dataType, $tag->description);
+            // TODO: variadic!
+        }
+
+        return $result;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getReturnType()
+    {
+        foreach ($this->byType('return')->getTags() as $tag) {
+            assert($tag instanceof ReturnTag);
+            // TODO: return a class, we need the description
+            return $tag->dataType;
+        }
+
+        return null;
     }
 
     public function getTags()

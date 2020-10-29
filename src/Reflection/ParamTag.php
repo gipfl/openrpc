@@ -23,7 +23,7 @@ class ParamTag extends Tag
             return;
         }
 
-        if (substr($parts, 0, 1) === '$') {
+        if (substr($parts[0], 0, 1) === '$') {
             $this->name = substr($parts[0], 1);
             array_shift($parts);
             array_shift($parts);

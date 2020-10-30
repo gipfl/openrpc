@@ -3,22 +3,11 @@
 namespace gipfl\OpenRpc\Reflection;
 
 use InvalidArgumentException;
-use JsonSerializable;
 use ReflectionClass;
 use ReflectionException;
 
-class MetaDataClass implements JsonSerializable
+class MetaDataClass
 {
-    use MetaDataSerializer;
-
-    const REQUIRED_PROPERTIES = []; // Used to be 'namespace'
-
-    const OPTIONAL_PROPERTIES = [];
-
-    const RELATED_PROPERTIES = [
-        'methods' => MetaDataMethod::class,
-    ];
-
     /** @var MetaDataMethod[] */
     public $methods = [];
 
@@ -27,18 +16,14 @@ class MetaDataClass implements JsonSerializable
 
     /**
      * @param string $class
+     * @throws ReflectionException
      * @return static
      */
     public static function analyze($class)
     {
         $info = new static();
 
-        try {
-            $ref = new ReflectionClass($class);
-        } catch (ReflectionException $e) {
-            $info->error = $e->getMessage();
-            return $info;
-        }
+        $ref = new ReflectionClass($class);
 
         foreach ($ref->getMethods() as $method) {
             $methodName = $method->getName();
@@ -85,13 +70,5 @@ class MetaDataClass implements JsonSerializable
         }
 
         throw new InvalidArgumentException("There is no '$name' method");
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getError()
-    {
-        return $this->error;
     }
 }

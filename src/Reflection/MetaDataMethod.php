@@ -3,27 +3,9 @@
 namespace gipfl\OpenRpc\Reflection;
 
 use InvalidArgumentException;
-use JsonSerializable;
 
-class MetaDataMethod implements JsonSerializable
+class MetaDataMethod
 {
-    use MetaDataSerializer;
-
-    const REQUIRED_PROPERTIES = [
-        'name',
-        'requestType',
-    ];
-
-    const OPTIONAL_PROPERTIES = [
-        'resultType',
-        'title',
-        'description',
-    ];
-
-    const RELATED_PROPERTIES = [
-        'parameters' => MetaDataParameter::class,
-    ];
-
     /** @var string */
     public $name;
 

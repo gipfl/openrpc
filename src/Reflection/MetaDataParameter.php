@@ -2,23 +2,8 @@
 
 namespace gipfl\OpenRpc\Reflection;
 
-use JsonSerializable;
-
-class MetaDataParameter implements JsonSerializable
+class MetaDataParameter
 {
-    use MetaDataSerializer;
-
-    const REQUIRED_PROPERTIES = [
-        'name',
-        'type',
-    ];
-
-    const OPTIONAL_PROPERTIES = [
-        'description',
-    ];
-
-    const RELATED_PROPERTIES = [];
-
     /** @var string */
     public $name;
 

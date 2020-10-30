@@ -2,13 +2,17 @@
 
 namespace gipfl\OpenRpc;
 
+use JsonSerializable;
+
 /**
  * The example Pairing object consists of a set of example params and result.
  * The result is what you can expect from the JSON-RPC service given the exact
  * params.
  */
-class ExamplePairing
+class ExamplePairing implements JsonSerializable
 {
+    use SimpleJsonSerializer;
+
     /** @var string|null Name for the example pairing */
     public $name;
 

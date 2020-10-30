@@ -2,6 +2,8 @@
 
 namespace gipfl\OpenRpc;
 
+use JsonSerializable;
+
 /**
  * The Link object represents a possible design-time link for a result. The
  * presence of a link does not guarantee the caller’s ability to successfully
@@ -15,8 +17,10 @@ namespace gipfl\OpenRpc;
  * expression is used for accessing values in an method and using them as
  * parameters while invoking the linked method.
  */
-class Link
+class Link implements JsonSerializable
 {
+    use SimpleJsonSerializer;
+
     /**
      * REQUIRED. Canonical name of the link.
      *
@@ -76,4 +80,12 @@ class Link
      * @var Server|null
      */
     public $server;
+
+    /**
+     * @param string $name
+     */
+    public function __construct($name)
+    {
+        $this->name = $name;
+    }
 }

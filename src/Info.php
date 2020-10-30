@@ -56,6 +56,11 @@ class Info implements JsonSerializable
      */
     public $version;
 
+    /**
+     * Info constructor.
+     * @param string $title
+     * @param string $version
+     */
     public function __construct($title, $version)
     {
         $this->title = $title;

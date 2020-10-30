@@ -2,6 +2,8 @@
 
 namespace gipfl\OpenRpc;
 
+use JsonSerializable;
+
 /**
  * Holds a set of reusable objects for different aspects of the OpenRPC. All
  * objects defined within the components object will have no effect on the API
@@ -11,8 +13,10 @@ namespace gipfl\OpenRpc;
  * All the fixed fields declared are objects that MUST use keys that match the
  * regular expression: ^[a-zA-Z0-9\.\-_]+$
  */
-class Components
+class Components implements JsonSerializable
 {
+    use SimpleJsonSerializer;
+
     /**
      * An object to hold reusable Content Descriptor Objects
      *

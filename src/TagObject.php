@@ -2,12 +2,16 @@
 
 namespace gipfl\OpenRpc;
 
+use JsonSerializable;
+
 /**
  * Adds metadata to a single tag that is used by the Method Object. It is not
  * mandatory to have a Tag Object per tag defined in the Method Object instances
  */
-class TagObject
+class TagObject implements JsonSerializable
 {
+    use SimpleJsonSerializer;
+
     /**
      * REQUIRED. The name of the tag.
      *
@@ -36,4 +40,9 @@ class TagObject
      * @var ExternalDocumentation
      */
     public $externalDocs;
+
+    public function __construct($name)
+    {
+        $this->name = $name;
+    }
 }

@@ -63,9 +63,13 @@ class OpenRpcDocument implements JsonSerializable
      */
     public $externalDocs;
 
-    public function __construct($openrpcVersion, Info $info)
+    /**
+     * @param string $openRpcVersion
+     * @param Info $info
+     */
+    public function __construct($openRpcVersion, Info $info)
     {
-        $this->openrpc = $openrpcVersion;
+        $this->openrpc = $openRpcVersion;
         $this->info = $info;
     }
 }

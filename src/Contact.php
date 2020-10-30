@@ -2,11 +2,15 @@
 
 namespace gipfl\OpenRpc;
 
+use JsonSerializable;
+
 /**
  * Contact information for the exposed API
  */
-class Contact
+class Contact implements JsonSerializable
 {
+    use SimpleJsonSerializer;
+
     /**
      * The identifying name of the contact person/organization
      *
@@ -29,4 +33,17 @@ class Contact
      * @var string|null
      */
     public $email;
+
+    /**
+     * Contact constructor.
+     * @param string|null $name
+     * @param string|null $url
+     * @param string|null $email
+     */
+    public function __construct($name = null, $url = null, $email = null)
+    {
+        $this->name = $name;
+        $this->url = $url;
+        $this->email = $email;
+    }
 }

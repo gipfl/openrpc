@@ -2,11 +2,15 @@
 
 namespace gipfl\OpenRpc;
 
+use JsonSerializable;
+
 /**
  * An object representing a Server Variable for server URL template substitution.
  */
-class ServerVariable
+class ServerVariable implements JsonSerializable
 {
+    use SimpleJsonSerializer;
+
     /**
      * REQUIRED. The default value to use for substitution, which SHALL be sent
      * if an alternate value is not supplied. Note this behavior is different
@@ -31,4 +35,12 @@ class ServerVariable
      * @var string[]
      */
     public $enum;
+
+    /**
+     * @param string $default
+     */
+    public function __construct($default)
+    {
+        $this->default = $default;
+    }
 }

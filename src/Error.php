@@ -43,7 +43,7 @@ class Error implements JsonSerializable
     /**
      * @param int $code
      * @param string $message
-     * @param null $data
+     * @param mixed|null $data
      */
     public function __construct($code, $message, $data = null)
     {

@@ -2,11 +2,15 @@
 
 namespace gipfl\OpenRpc;
 
+use JsonSerializable;
+
 /**
  * Allows referencing an external resource for extended documentation
  */
-class ExternalDocumentation
+class ExternalDocumentation implements JsonSerializable
 {
+    use SimpleJsonSerializer;
+
     /**
      * REQUIRED. The URL for the target documentation. Value MUST be in the
      * format of a URL.
@@ -22,4 +26,12 @@ class ExternalDocumentation
      * @var string|null
      */
     public $description;
+
+    /**
+     * @param $url
+     */
+    public function __construct($url)
+    {
+        $this->url = $url;
+    }
 }

@@ -16,6 +16,14 @@ class Reference implements JsonSerializable
     /** @var string REQUIRED. The reference string */
     public $ref;
 
+    /**
+     * @param string $ref
+     */
+    public function __construct($ref)
+    {
+        $this->ref = $ref;
+    }
+
     public function jsonSerialize()
     {
        return (object) ['$ref' => $this->ref];

@@ -2,15 +2,19 @@
 
 namespace gipfl\OpenRpc;
 
+use JsonSerializable;
+
 /**
  * An object representing a Server.
  */
-class Server
+class Server implements JsonSerializable
 {
+    use SimpleJsonSerializer;
+
     /**
-     * REQUIRED. A name to be used as the cannonical name for the server.
+     * REQUIRED. A name to be used as the canonical name for the server.
      *
-     * @var string|null
+     * @var string
      */
     public $name;
 
@@ -57,4 +61,14 @@ class Server
      * @var ServerVariable Map[string, Server Variable Object]
      */
     public $variables;
+
+    /**
+     * @param string $name
+     * @param string $url
+     */
+    public function __construct($name, $url)
+    {
+        $this->name = $name;
+        $this->url = $url;
+    }
 }

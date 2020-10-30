@@ -2,13 +2,17 @@
 
 namespace gipfl\OpenRpc;
 
+use JsonSerializable;
+
 /**
  * This is the root object of the OpenRPC document. The contents of this object
  * represent a whole OpenRPC document. How this object is constructed or stored
  * is outside the scope of the OpenRPC Specification.
  */
-class OpenRpcDocument
+class OpenRpcDocument implements JsonSerializable
 {
+    use SimpleJsonSerializer;
+
     /**
      * REQUIRED. This string MUST be the semantic version number of the OpenRPC
      * Specification version that the OpenRPC document uses. The openrpc field
@@ -33,7 +37,7 @@ class OpenRpcDocument
      * array, the default value would be a Server Object with a url value of
      * localhost.
      *
-     * @var Server[]
+     * @var Server[]|null
      */
     public $servers;
 
@@ -43,7 +47,7 @@ class OpenRpcDocument
      *
      * @var Method[]|Reference[]
      */
-    public $methods;
+    public $methods = [];
 
     /**
      * An element to hold various schemas for the specification

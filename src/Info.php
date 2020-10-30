@@ -2,13 +2,17 @@
 
 namespace gipfl\OpenRpc;
 
+use JsonSerializable;
+
 /**
  * The object provides metadata about the API. The metadata MAY be used by the
  * clients if needed, and MAY be presented in editing or documentation
  * generation tools for convenience.
  */
-class Info
+class Info implements JsonSerializable
 {
+    use SimpleJsonSerializer;
+
     /**
      * REQUIRED. The title of the application
      *

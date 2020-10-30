@@ -2,12 +2,16 @@
 
 namespace gipfl\OpenRpc;
 
+use JsonSerializable;
+
 /**
  * Describes the interface for the given method name. The method name is used
  * as the method field of the JSON-RPC body. It therefore MUST be unique.
  */
-class Method
+class Method implements JsonSerializable
 {
+    use SimpleJsonSerializer;
+
     /**
      * REQUIRED. The cannonical name for the method. The name MUST be unique
      * within the methods array.
@@ -118,4 +122,12 @@ class Method
      * @var ExamplePairing []
      */
     public $examples;
+
+    /**
+     * @param $name
+     */
+    public function __construct($name)
+    {
+        $this->name = $name;
+    }
 }

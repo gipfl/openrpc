@@ -2,13 +2,17 @@
 
 namespace gipfl\OpenRpc;
 
+use JsonSerializable;
+
 /**
  * Content Descriptors are objects that do just as they suggest - describe
  * content. They are reusable ways of describing either parameters or result.
  * They MUST have a schema.
  */
-class ContentDescriptor
+class ContentDescriptor implements JsonSerializable
 {
+    use SimpleJsonSerializer;
+
     /**
      * REQUIRED. Name of the content that is being described. If the content
      * described is a method parameter assignable by-name, this field SHALL
@@ -60,4 +64,10 @@ class ContentDescriptor
      * @var boolean|null
      */
     public $deprecated;
+
+    public function __construct($name, $schema)
+    {
+        $this->name = $name;
+        $this->schema = $schema;
+    }
 }

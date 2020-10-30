@@ -2,11 +2,15 @@
 
 namespace gipfl\OpenRpc;
 
+use JsonSerializable;
+
 /**
  * Defines an application level error.
  */
-class Error
+class Error implements JsonSerializable
 {
+    use SimpleJsonSerializer;
+
     /**
      * Application Defined Error Code
      *
@@ -35,4 +39,16 @@ class Error
      * @var mixed
      */
     public $data;
+
+    /**
+     * @param int $code
+     * @param string $message
+     * @param null $data
+     */
+    public function __construct($code, $message, $data = null)
+    {
+        $this->code = $code;
+        $this->message = $message;
+        $this->data = $data;
+    }
 }

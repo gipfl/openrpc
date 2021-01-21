@@ -5,6 +5,8 @@ namespace gipfl\OpenRpc\Reflection;
 use InvalidArgumentException;
 use ReflectionClass;
 use ReflectionException;
+use function lcfirst;
+use function preg_match;
 
 class MetaDataClass
 {
@@ -27,15 +29,15 @@ class MetaDataClass
 
         foreach ($ref->getMethods() as $method) {
             $methodName = $method->getName();
-            if (! \preg_match('/^(.+)(Request|Notification)$/', $methodName, $match)) {
+            if (! preg_match('/^(.+)(Request|Notification)$/', $methodName, $match)) {
                 continue;
             }
 
             $info->addMethod(MethodCommentParser::parseMethod(
                 $match[1],
-                \lcfirst($match[2]),
-                $method->getDocComment())
-            );
+                lcfirst($match[2]),
+                $method->getDocComment()
+            ));
         }
 
         return $info;
@@ -45,7 +47,7 @@ class MetaDataClass
     {
         $name = $method->name;
         if (isset($this->methods[$name])) {
-            throw new \InvalidArgumentException("Cannot add method '$name' twice");
+            throw new InvalidArgumentException("Cannot add method '$name' twice");
         }
 
         $this->methods[$name] = $method;

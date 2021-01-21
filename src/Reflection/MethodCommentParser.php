@@ -2,6 +2,13 @@
 
 namespace gipfl\OpenRpc\Reflection;
 
+use function explode;
+use function implode;
+use function preg_match;
+use function preg_replace;
+use function substr;
+use function trim;
+
 class MethodCommentParser
 {
     const REGEXP_START_OF_COMMENT   = '~^\s*/\*\*\n~s';
@@ -44,7 +51,7 @@ class MethodCommentParser
 
     public function getDescription()
     {
-        return \implode("\n", $this->paragraphs);
+        return implode("\n", $this->paragraphs);
     }
 
     public function getTags()
@@ -55,9 +62,9 @@ class MethodCommentParser
     protected function parseLine($line)
     {
         // Strip * at line start
-        $line = \preg_replace(self::REGEXP_COMMENT_LINE_START, '', $line);
-        $line = \trim($line);
-        if (\preg_match(self::REGEXP_TAG_TYPE_VALUE, $line, $match)) {
+        $line = preg_replace(self::REGEXP_COMMENT_LINE_START, '', $line);
+        $line = trim($line);
+        if (preg_match(self::REGEXP_TAG_TYPE_VALUE, $line, $match)) {
             $this->finishCurrentObjects();
             $this->currentTag = new MetaDataTagParser($match[1], $match[2]);
             return;
@@ -83,7 +90,7 @@ class MethodCommentParser
             $this->currentParagraph = & $this->paragraphs[];
             $this->currentParagraph = $line;
         } else {
-            if (\substr($line, 0, 2) === '  ') {
+            if (substr($line, 0, 2) === '  ') {
                 $this->currentParagraph .= "\n" . $line;
             } else {
                 $this->currentParagraph .= ' ' . $line;
@@ -115,7 +122,7 @@ class MethodCommentParser
 
     protected function parse($plain)
     {
-        foreach (\preg_split('~\n~', $plain) as $line) {
+        foreach (explode("\n", $plain) as $line) {
             $this->parseLine($line);
         }
         $this->finishCurrentObjects();
@@ -141,7 +148,7 @@ class MethodCommentParser
      */
     protected static function stripStartOfComment(&$string)
     {
-        $string = \preg_replace(self::REGEXP_START_OF_COMMENT, '', $string);
+        $string = preg_replace(self::REGEXP_START_OF_COMMENT, '', $string);
     }
 
     /**
@@ -151,6 +158,6 @@ class MethodCommentParser
      */
     protected static function stripEndOfComment(&$string)
     {
-        $string = \preg_replace(self::REGEXP_END_OF_COMMENT, "\n", $string);
+        $string = preg_replace(self::REGEXP_END_OF_COMMENT, "\n", $string);
     }
 }

@@ -24,6 +24,7 @@ class Reference implements JsonSerializable
         $this->ref = $ref;
     }
 
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
        return (object) ['$ref' => $this->ref];
